@@ -7,7 +7,7 @@
       {% if livro.url_capa %}
         <img class="img-fluid img-thumbnail rounded" src="{{ livro.url_capa }}" width="120" height="180" alt="Capa do livro" />
       {% else %}
-        <img class="img-fluid img-thumbnail rounded" src="{% static 'assets/imagens/livro_404.png' %}" alt="Capa do livro não encontrada" />
+        <img class="img-fluid img-thumbnail rounded" src="{% static 'assets/images/livro_404.png' %}" alt="Capa do livro não encontrada" />
       {% endif %}
       <div class="ms-3 d-flex flex-column">
         <h1>{{ livro.titulo }}</h1>

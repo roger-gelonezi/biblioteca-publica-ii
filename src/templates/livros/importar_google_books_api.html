@@ -1,5 +1,6 @@
 {% extends 'shared/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block content %}
   <div class="container mt-3 mb-3">
     <main class="w-100 m-auto">
@@ -11,6 +12,31 @@
         {% endfor %}
         <button type="submit" class="btn btn-success col-12">Pesquisar</button>
       </form>
+      <div class="container mt-3 list-group">
+        {% if cards %}
+          {% for livro in cards %}
+            <div class="list-group-item mb-3 d-flex">
+              {% if livro.url_capa %}
+                <img class="img-fluid img-thumbnail rounded" src="{{ livro.url_capa }}" width="120" height="180" alt="Capa do livro" />
+              {% else %}
+                <img class="img-fluid img-thumbnail rounded" src="{% static 'assets/images/livro_404.png' %}" width="120" height="180" alt="Image Not Found" />
+              {% endif %}
+              <div class="ms-3 d-flex flex-column">
+                <h5 class="mb-1 fw-bold" name="titulo">{{ livro.titulo }}</h5>
+                <p class="mb-1">{{ livro.autores|join:', ' }}</p>
+                <small>{{ livro.subtitulo }}</small>
+                <p>{{ livro.data_publicacao }}</p>
+                <p>{{ livro.descricao|truncatechars:120 }}</p>
+                {% if livro.codigo_barras_isbn == '' %}
+                  <a class="p-1"><button class="btn btn-danger">Indisponível</button></a>
+                {% else %}
+                  <a href="{% url 'salvar_livro_google_books_api' livro.codigo_barras_isbn %}" class="p-1"><button class="btn btn-success">Importar</button></a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
     </main>
   </div>
 {% endblock %}

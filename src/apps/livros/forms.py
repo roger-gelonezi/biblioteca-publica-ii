@@ -6,6 +6,7 @@ class ImportarGoogleBooksApiForms(forms.Form):
     codigo_barras_isbn = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control"}),
         label="Código de Barras (ISBN)",
+        required=False,
     )
     titulo = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control"}),
