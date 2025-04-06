@@ -1,0 +1,50 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+  <div class="container mt-3">
+    <div class="list-group-item mb-3 d-flex">
+      {% if livro.url_capa %}
+        <img class="img-fluid img-thumbnail rounded" src="{{ livro.url_capa }}" width="120" height="180" alt="Capa do livro" />
+      {% else %}
+        <img class="img-fluid img-thumbnail rounded" src="{% static 'assets/imagens/livro_404.png' %}" alt="Capa do livro não encontrada" />
+      {% endif %}
+      <div class="ms-3 d-flex flex-column">
+        <h1>{{ livro.titulo }}</h1>
+        <h6>{{ livro.subtitulo }}</h6>
+        <p>Por {{ livro.autores|join:', ' }}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">Sobre esta edição</h5>
+            <ul class="list-unstyled">
+              <li>
+                <strong>Autores e Tradutores:</strong> {{ livro.autores|join:', ' }}
+              </li>
+              <li>
+                <strong>Data de publicação:</strong> {{ livro.data_publicacao }}
+              </li>
+              <li>
+                <strong>Código de Barras (ISBN):</strong> {{ livro.codigo_barras_isbn }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Descrição</h5>
+            <p>{{ livro.descricao }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-2 mb-4 d-flex col-md-8">
+        <a href="{% url 'editar_livro' livro.id %}" class="col-9 p-1"><button class="btn btn-success col-12">Editar</button></a>
+        <a href="{% url 'excluir_livro' livro.id %}" class="col-3 p-1"><button class="btn btn-danger col-12">Excluir</button></a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

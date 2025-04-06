@@ -1,0 +1,9 @@
+services:
+  web:
+    container_name: biblioteca-publica-web
+    image: biblioteca-publica-web
+    build:
+      context: ../src
+      target: builder
+    environment:
+      - name=biblioteca-publica

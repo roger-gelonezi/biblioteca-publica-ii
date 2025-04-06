@@ -1,0 +1,16 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="container mt-3 mb-3">
+    <main class="w-100 m-auto">
+      <form action="{% url 'importar_google_books_api' %}" method="POST" enctype="multipart/form-data">
+        <label class="fw-bold col-form-label col-form-label-lg">Importar Livro:</label>
+        {% csrf_token %}
+        {% for field in form.visible_fields %}
+          {% include 'partials/inputs/_input_resolver.html' %}
+        {% endfor %}
+        <button type="submit" class="btn btn-success col-12">Pesquisar</button>
+      </form>
+    </main>
+  </div>
+{% endblock %}

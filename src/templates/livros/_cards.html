@@ -1,0 +1,39 @@
+{% load static %}
+{% load humanize %}
+<div class="container mt-3 list-group">
+  {% if cards %}
+    {% for livro in cards %}
+      <div class="list-group-item mb-3 d-flex">
+        <a href="{% url 'livro' livro.id %}">
+          {% if livro.url_capa %}
+            <img class="img-fluid img-thumbnail rounded" src="{{ livro.url_capa }}" width="120" height="180" alt="Capa do livro" />
+          {% else %}
+            <img class="img-fluid img-thumbnail rounded" src="{% static 'assets/imagens/livro_404.png' %}" alt="404" />
+          {% endif %}
+        </a>
+        <div class="ms-3 d-flex flex-column">
+          <h5 class="mb-1 fw-bold">{{ livro.titulo }}</h5>
+          <p class="mb-1">{{ livro.authors|join:', ' }}</p>
+          <small>{{ livro.subtitulo }}</small>
+        </div>
+      </div>
+    {% endfor %}
+    <p>
+      Parte:{% if page > 2 %}
+        <a href="{% url 'index' 1 %}">1...</a>
+      {% endif %}
+      {% if last_page != page %}
+        <a href="{% url 'index' last_page %}">{{ last_page }}</a>
+      {% endif %}
+      {{ page }}
+      {% if next_page != page %}
+        <a href="{% url 'index' next_page %}">{{ next_page }}</a>
+      {% endif %}
+      {% if total_pages != page and total_pages != next_page %}
+        de <a href="{% url 'index' total_pages %}">...{{ total_pages }}</a>
+      {% endif %}
+    </p>
+  {% else %}
+    <p>404</p>
+  {% endif %}
+</div>

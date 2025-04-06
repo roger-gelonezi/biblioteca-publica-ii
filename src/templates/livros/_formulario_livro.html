@@ -1,0 +1,7 @@
+{% csrf_token %}
+<div class="container mb-5">
+  {% for field in form.visible_fields %}
+    {% include 'partials/inputs/_input_resolver.html' %}
+  {% endfor %}
+  <button type="submit" class="btn btn-success col-12">Salvar</button>
+</div>
