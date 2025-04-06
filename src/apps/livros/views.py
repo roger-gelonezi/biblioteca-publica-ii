@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
 from django.contrib import messages
 from apps.livros.models import Livro
 from apps.livros.forms import ImportarGoogleBooksApiForms, LivroForms
-from apps.livros.services.google_books_service import importar_google_books
+from apps.livros.services.google_books_service import (
+    listar_google_books,
+    get_livro_google_books_api,
+)
 from helpers.erros_helper import tratar_erros
 from math import ceil
 
@@ -42,6 +44,52 @@ def index(request, page=1):
             "total_pages": total_pages,
         },
     )
+
+
+def importar_google_books_api(request):
+    if not request.user.is_authenticated:
+        messages.warning(
+            request, "Você precisa estar logado para utilizar esta ferramenta."
+        )
+        return redirect("index")
+
+    form = ImportarGoogleBooksApiForms()
+    if request.method == "POST":
+        form = ImportarGoogleBooksApiForms(request.POST)
+        if form.is_valid():
+            codigo_barras_isbn = form.cleaned_data["codigo_barras_isbn"]
+            titulo = form.cleaned_data["titulo"]
+            livros = listar_google_books(codigo_barras_isbn, titulo)
+            return render(
+                request,
+                "livros/importar_google_books_api.html",
+                {"form": form, "cards": livros},
+            )
+
+    return render(
+        request,
+        "livros/importar_google_books_api.html",
+        {"form": form},
+    )
+
+
+def salvar_livro_google_books_api(request, codigo_barras_isbn: str):
+    if not request.user.is_authenticated:
+        messages.warning(
+            request, "Você precisa estar logado para utilizar esta ferramenta."
+        )
+        return redirect("index")
+    livro_model = Livro.objects.get_or_create(codigo_barras_isbn=codigo_barras_isbn)
+    livro_import = get_livro_google_books_api(codigo_barras_isbn)
+    livro_model[0].titulo = livro_import.titulo
+    livro_model[0].subtitulo = livro_import.subtitulo
+    livro_model[0].autores = livro_import.autores
+    livro_model[0].data_publicacao = livro_import.data_publicacao
+    livro_model[0].descricao = livro_import.descricao
+    livro_model[0].url_capa = livro_import.url_capa
+    livro_model[0].codigo_barras_isbn = codigo_barras_isbn
+    livro_model[0].save()
+    return render(request, "livros/livro.html", {"livro": livro_model[0]})
 
 
 def livro(request, livro_id):
@@ -89,23 +137,6 @@ def editar_livro(request, livro_id):
     return render(
         request, "livros/editar_livro.html", {"form": form, "livro_id": livro_id}
     )
-
-
-def importar_google_books_api(request):
-    if not request.user.is_authenticated:
-        messages.warning(
-            request, "Você precisa estar logado para utilizar esta ferramenta."
-        )
-        return redirect("index")
-
-    form = ImportarGoogleBooksApiForms()
-    if request.method == "POST":
-        form = ImportarGoogleBooksApiForms(request.POST)
-        if form.is_valid():
-            codigo_barras_isbn = form.cleaned_data["codigo_barras_isbn"]
-            importar_google_books(codigo_barras_isbn)
-        return redirect("index")
-    return render(request, "livros/importar_google_books_api.html", {"form": form})
 
 
 def excluir_livro(request, livro_id):
