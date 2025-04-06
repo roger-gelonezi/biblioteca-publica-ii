@@ -1,0 +1,12 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <main class="w-100 m-auto">
+      <form action="{% url 'novo_livro' %}" method="POST" enctype="multipart/form-data">
+        <label class="fw-bold col-form-label col-form-label-lg">Cadastrar novo livro:</label>
+        {% include 'livros/_formulario_livro.html' %}
+      </form>
+    </main>
+  </div>
+{% endblock %}

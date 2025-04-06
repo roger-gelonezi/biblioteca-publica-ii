@@ -1,0 +1,10 @@
+services:
+  mysql:
+    extends:
+      file: templates/mysql.yml
+      service: mysql
+
+  minio:
+    extends:
+      file: templates/minio.yml
+      service: minio

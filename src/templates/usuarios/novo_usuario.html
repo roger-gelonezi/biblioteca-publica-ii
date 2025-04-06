@@ -1,0 +1,20 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <main class="form-signin w-100 m-auto" style="max-width: 500px;">
+      <form action="{% url 'novo_usuario' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label class="fw-bold col-form-label col-form-label-lg">Insira seus Dados de Acesso</label>
+        {% for field in form.visible_fields %}
+          <div class="form-floating mb-1 input-group has-validation">
+            {{ field }}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          </div>
+        {% endfor %}
+        <label class="col-form-label">Após o envio, aguarde a autorização e a ativação do seu usuário.</label>
+        <button class="btn btn-primary w-100 py-2 mt-2" type="submit">Cadastrar</button>
+      </form>
+    </main>
+  </div>
+{% endblock %}

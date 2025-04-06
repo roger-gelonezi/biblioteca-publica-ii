@@ -1,0 +1,10 @@
+services:
+  mysql:
+    image: mysql:9.2.0
+    container_name: mysql
+    env_file:
+      - ./mysql.env
+    ports:
+      - 3306:3306
+    volumes:
+      - ../.environment/mysql:/docker-entrypoint-initdb.d

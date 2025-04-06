@@ -1,0 +1,9 @@
+services:
+  biblioteca-publica:
+    image: rogeriogelonezi/biblioteca-publica:{BRANCH}
+    container_name: biblioteca-publica
+    env_file:
+      - ../../.env
+    ports:
+      - 80:8000
+      - 443:8000

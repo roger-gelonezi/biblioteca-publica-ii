@@ -1,0 +1,7 @@
+<div>
+  <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+</div>
+{% if field.value %}
+  <img class="img-fluid img-thumbnail rounded" src="{{ field.value.url }}" width="120" height="180" alt="Capa do Livro" />
+{% endif %}
+{{ field }}

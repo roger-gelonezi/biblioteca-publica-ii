@@ -1,0 +1,15 @@
+services:
+  biblioteca-publica:
+    extends:
+      file: templates/docker-compose-biblioteca-publica.yml
+      service: biblioteca-publica
+
+  mysql:
+    extends:
+      file: templates/docker-compose-mysql.yml
+      service: mysql
+
+  minio:
+    extends:
+      file: templates/docker-compose-minio.yml
+      service: minio
