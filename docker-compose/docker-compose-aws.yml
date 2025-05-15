@@ -4,16 +4,14 @@ services:
     container_name: biblioteca-publica
     environment:
       SECRET_KEY: django-insecure-4ez-u7)2&h3kfy^cpax3lyof%3mxi2=sd+@oe59ssh6zjfs_my
-      MYSQL_HOST: mysql
+      MYSQL_HOST: bibliotecapublicadb.c3gs6gu0sj9b.sa-east-1.rds.amazonaws.com
       MYSQL_PORT: 3306
       MYSQL_DATABASE: bibliotecapublica
       MYSQL_USER: admin
-      MYSQL_PASSWORD: mysqlpassword
-      ALLOWED_HOSTS: localhost
-      CSRF_TRUSTED_ORIGINS: http://127.0.0.1:8000
+      MYSQL_PASSWORD: FBDf0viIMzaJcQj996mT
+      ALLOWED_HOSTS: bibliotecapublica.online, www.bibliotecapublica.online
+      CSRF_TRUSTED_ORIGINS: bibliotecapublica.online, www.bibliotecapublica.online
       DEBUG: True
     ports:
       - 80:8000
       - 443:8000
-    volumes:
-      - ./static:/app/static
