@@ -21,21 +21,23 @@
       </div>
     {% endfor %}
     <p>
-      Parte:{% if page > 2 %}
-        <a href="{% url 'index' 1 %}">1...</a>
-      {% endif %}
-      {% if last_page != page %}
-        <a href="{% url 'index' last_page %}">{{ last_page }}</a>
-      {% endif %}
-      {{ page }}
-      {% if next_page != page %}
-        <a href="{% url 'index' next_page %}">{{ next_page }}</a>
-      {% endif %}
-      {% if total_pages != page and total_pages != next_page %}
-        de <a href="{% url 'index' total_pages %}">...{{ total_pages }}</a>
+      {% if total_pages != 1 %}
+        Parte:{% if page > 2 %}
+          <a href="{% url 'index' 1 %}">1...</a>
+        {% endif %}
+        {% if last_page != page %}
+          <a href="{% url 'index' last_page %}">{{ last_page }}</a>
+        {% endif %}
+        {{ page }}
+        {% if next_page != page %}
+          <a href="{% url 'index' next_page %}">{{ next_page }}</a>
+        {% endif %}
+        {% if total_pages != page and total_pages != next_page %}
+          de <a href="{% url 'index' total_pages %}">...{{ total_pages }}</a>
+        {% endif %}
       {% endif %}
     </p>
   {% else %}
-    <p>404</p>
+    <p>Nenhum livro encontrado</p>
   {% endif %}
 </div>
